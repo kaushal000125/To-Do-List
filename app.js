@@ -11,11 +11,8 @@ app.use(express.urlencoded({extended:true}));
 app.set("view engine","ejs");
 
 
- mongoose.connect("mongodb+srv://Kaushal_Chakardhari:Kaushal_1113@cluster1.ibwz9.mongodb.net/todolistDB",{useNewUrlParser:true,useUnifiedTopology: true});
- //mongodb+srv://Kaushal_Chakardhari:Kaushal_1113@cluster1.ibwz9.mongodb.net/todolistDB
-//const items = ["Buy Food", "Cook Food", "Eat Food"];
-//const workItems = [];
-//mongoose.connect('mongodb://localhost:27017/todolistDB',{useNewUrlParser:true,useUnifiedTopology: true});
+ mongoose.connect("mongodb+srv://Kaushal_Chakardhari:<password>@cluster1.ibwz9.mongodb.net/todolistDB",{useNewUrlParser:true,useUnifiedTopology: true});
+ 
 const itemsSchema={
   name:String
 }
@@ -34,7 +31,7 @@ const item3=new Item({
 });
 
 
-const defaultItems=[item1,item2,item3]; //creating array of mongoose documents to put them in  one go using insertMany()
+const defaultItems=[item1,item2,item3]; 
 
 const listSchema={
   name:String,
@@ -43,21 +40,15 @@ const listSchema={
 
 
 const List=mongoose.model("List",listSchema);
-/*Item.deleteMany({name:"<--Hit this to delete an item."},function(err){
-   if(err)
-   console.log(err);
-   else
-   console.log("Successfully deleted!");
-});
-*/
+
 
 
 
 
 app.get("/", function(req, res) {
-                                                            //const day = date.getDate();
-Item.find({},function(err,foundItems){                         //foundItems is array which have whole information of Items
-  if(foundItems.length==0)                                       //only in intial case we need to enter the default data
+                                                            
+Item.find({},function(err,foundItems){                         
+  if(foundItems.length==0)                                       
   {
     Item.insertMany(defaultItems,function(err){
        if(err)
@@ -65,7 +56,7 @@ Item.find({},function(err,foundItems){                         //foundItems is a
        else
        console.log("Successfully added!");
     });
-  res.redirect("/");                                                  //redirecting to home page will push the data on server using else statement
+  res.redirect("/");                                                  
   }
   else
 res.render("list", {listTitle: "Today", newListItems: foundItems});
@@ -80,18 +71,18 @@ app.get("/:customListName",function(req,res){
   List.findOne({name:customListName},function(err,foundList){
     if(!err)
     {
-      if(!foundList){                                               //if foundlist did not created then we need to create it and add a new page
+      if(!foundList){                                              
         const list=new List({
           name:customListName,
           items:defaultItems
         });
-        list.save(function(){                                       //if it already created then we only need to show that page
-          res.redirect("/"+ customListName);                                //to redirect to same page otherwise it will hang on
+        list.save(function(){                                      
+          res.redirect("/"+ customListName);                               
         });
       }
       else
       {
-                                                                              //show an exisiting list
+                                                                             
         res.render("list",{listTitle:foundList.name,newListItems:foundList.items});
       }
     }
@@ -109,9 +100,9 @@ app.post("/", function(req, res){
     name:nwItmadded
   });
   if(listName==="Today")
-  {item4.save();                                 //it will save nwItmadded
-  res.redirect("/");                           //it will push it on server i.e. it will visible to user
-  }                                           /*if (req.body.list === "Work List") {
+  {item4.save();                               
+  res.redirect("/");                          
+  }                                           
     workItems.push(item);
     res.redirect("/work");
   } else {
@@ -132,13 +123,13 @@ app.post("/", function(req, res){
 
 
 app.post("/delete",function(req,res){
-  const checkItemId=req.body.checkbox;             //we r delting the checked entity by getting its id becuase we cann't access the element directly
+  const checkItemId=req.body.checkbox;             
 const listName=req.body.listName;
 if(listName==="Today"){
   Item.findByIdAndRemove(checkItemId,function(err){
     if(!err)
     console.log("deleted successfully!");
-    res.redirect("/");                              //it redirect to home page i.e. it shows the checkdbox element deleted instantily
+    res.redirect("/");                              
   });
 }
 else
@@ -150,11 +141,6 @@ else
 }
 });
 
-
-
-/*app.get("/work", function(req,res){
-  res.render("list", {listTitle: "Work List", newListItems: workItems});
-});*/
 
 app.get("/about", function(req, res){
   res.render("about");
