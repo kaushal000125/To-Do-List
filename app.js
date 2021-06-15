@@ -11,14 +11,16 @@ app.use(express.urlencoded({extended:true}));
 app.set("view engine","ejs");
 
 
-mongoose.connect("mongodb+srv://Kaushal_Chakardhari:Kaushal_1113@cluster0.nc9gg.mongodb.net/todolistDB",{useNewUrlParser:true,useUnifiedTopology: true});
+ mongoose.connect("mongodb+srv://Kaushal_Chakardhari:Kaushal_1113@cluster1.ibwz9.mongodb.net/todolistDB",{useNewUrlParser:true,useUnifiedTopology: true});
+ //mongodb+srv://Kaushal_Chakardhari:Kaushal_1113@cluster1.ibwz9.mongodb.net/todolistDB
 //const items = ["Buy Food", "Cook Food", "Eat Food"];
 //const workItems = [];
+//mongoose.connect('mongodb://localhost:27017/todolistDB',{useNewUrlParser:true,useUnifiedTopology: true});
 const itemsSchema={
   name:String
 }
 
-const Item=mongoose.model("Item",itemsSchema);  //Mongoose model
+const Item=mongoose.model("Item",itemsSchema);     //Mongoose model
 
   //Mongoose Document
 const item1=new Item({
@@ -158,10 +160,10 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 let port =process.env.PORT;
-if(port==null||port=="")
+/*if(port==null||port=="")
 {
   port=3000;
-}
-app.listen(port, function() {
+}*/
+app.listen(port||3000, function() {
   console.log("Server started successfully");
 });
