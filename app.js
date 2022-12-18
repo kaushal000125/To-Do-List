@@ -105,7 +105,8 @@ app.post("/", function(req, res){
   }                                           
     workItems.push(item);
     res.redirect("/work");
-  } else {
+  } 
+   else{
     items.push(item);
     res.redirect("/");
   }*/
