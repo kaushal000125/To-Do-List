@@ -103,7 +103,7 @@ app.post("/", function(req, res){
   {item4.save();                               
   res.redirect("/");                          
   }                                           
-    workItems.push(item);
+  /*  workItems.push(item);
     res.redirect("/work");
   } 
    else{
